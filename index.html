@@ -2,192 +2,132 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>iL – Intent Luxury Watch</title>
+<title>Intent Luxury</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  overflow-x: hidden;
+*{box-sizing:border-box;font-family:Arial}
+body{
+  margin:0;background:#000;color:#fff;overflow:hidden;
 }
 
-/* Intro overlay */
-#intro {
-  position: fixed;
-  top:0; left:0; width:100%; height:100%;
-  background:#000;
-  display:flex; justify-content:center; align-items:center;
-  flex-direction:column;
-  z-index: 10;
-  animation: fadeOut 3s forwards;
+/* OPEN ANIMATION */
+#splash{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:#000;z-index:10;
+  animation:fadeOut 1s ease 3s forwards;
 }
-
-#intro img {
-  width:150px;
-  animation: logoBounce 2s ease infinite alternate;
+#splash img{
+  width:120px;
+  animation:zoom 2s ease;
 }
+@keyframes zoom{0%{transform:scale(0)}100%{scale(1)}}
+@keyframes fadeOut{to{opacity:0;visibility:hidden}}
 
-@keyframes logoBounce {
-  0% { transform: scale(1);}
-  50% { transform: scale(1.2);}
-  100% { transform: scale(1);}
-}
-
-@keyframes fadeOut {
-  0% {opacity:1;}
-  80% {opacity:1;}
-  100% {opacity:0; visibility:hidden;}
-}
-
-/* Card container */
-.card {
-  max-width: 800px;
-  background: #222;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 0 30px rgba(0,255,170,0.3);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-/* Images side by side */
-.card .images {
-  flex: 1 1 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.card .images img {
-  width: 100%;
-  border-radius: 12px;
-}
-
-/* Details section */
-.card .details {
-  flex: 1 1 300px;
-  display: flex;
-  flex-direction: column;
-}
-
-.brand {
-  font-size: 22px;
-  color: gold;
-  font-weight: bold;
-}
-
-h2 {
-  margin: 8px 0;
-}
-
-p {
-  margin: 4px 0;
-  color: #ccc;
-}
-
-label {
-  margin-top: 12px;
-}
-
-input, select {
-  width: 100%;
-  padding: 8px;
-  margin-top:4px;
-  border-radius: 8px;
-  border:none;
-}
-
-button {
-  margin-top: 16px;
-  padding: 12px;
-  background: gold;
-  color:#000;
-  font-weight: bold;
-  border:none;
+/* GLOW LIGHT */
+.glow{
+  position:fixed;left:10px;top:40%;
+  width:8px;height:120px;
+  background:orange;
+  box-shadow:0 0 20px orange;
   border-radius:10px;
-  cursor:pointer;
 }
 
-button:hover {
-  box-shadow:0 0 15px gold;
+/* MAIN */
+.page{display:none;padding:20px}
+.page.active{display:block}
+
+/* SLIDER */
+.slider img{
+  width:100%;border-radius:15px;
+  animation:slide 6s infinite;
+}
+@keyframes slide{50%{opacity:.7}}
+
+/* PRODUCT */
+.product{
+  margin-top:20px;
+  background:#111;padding:15px;border-radius:15px;
+}
+button{
+  width:100%;padding:12px;
+  border:none;border-radius:12px;
+  background:#fff;font-weight:bold;
 }
 
-@media(max-width:700px){
-  .card{ flex-direction: column; }
+/* FORM */
+input,select{
+  width:100%;margin:8px 0;
+  padding:10px;border-radius:10px;border:none;
+}
+
+/* THANKS */
+#thanks{
+  text-align:center;
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.05)}
 }
 </style>
 </head>
+
 <body>
 
-<!-- Intro Logo Animation -->
-<div id="intro">
-  <img src="logo.png" alt="iL Logo">
-  <p style="color:gold; margin-top:10px; font-weight:bold;">iL – Intent Luxury Watch</p>
+<!-- OPEN LOGO -->
+<div id="splash">
+  <img src="logo.png">
 </div>
 
-<!-- Main Product Card -->
-<div class="card" id="mainCard" style="display:none;">
-  <!-- Images -->
-  <div class="images">
-    <img src="pic1.jpg" alt="Watch 1">
-    <img src="pic2.jpg" alt="Watch 2">
-    <img src="pic3.jpg" alt="Watch 3">
+<div class="glow"></div>
+
+<!-- PAGE 1 -->
+<div id="home" class="page active">
+  <div class="slider">
+    <img src="watch1.jpg">
   </div>
 
-  <!-- Details / Order Form -->
-  <div class="details">
-    <div class="brand">iL</div>
-    <h2>Intent Luxury – Gold Edition</h2>
-    <p>Premium gift box included</p>
-    <p>Price: ₹4,999</p>
-
-    <label for="name">Your Name</label>
-    <input type="text" id="name" placeholder="Enter your name">
-
-    <label for="number">Phone Number</label>
-    <input type="text" id="number" placeholder="Enter WhatsApp / Phone">
-
-    <label for="payment">Payment Method</label>
-    <select id="payment">
-      <option value="upi">UPI / Google Pay</option>
-      <option value="card">Debit / Credit Card</option>
-      <option value="cod">Cash on Delivery</option>
-    </select>
-
-    <label for="address">Delivery Address</label>
-    <input type="text" id="address" placeholder="Enter your address">
-
-    <button onclick="submitOrder()">Place Order</button>
+  <div class="product">
+    <h3>Intent Luxury Watch</h3>
+    <p>Limited Edition S2026</p>
+    <p>Price ₹1,999</p>
+    <button onclick="openPage('product')">View</button>
   </div>
+</div>
+
+<!-- PAGE 2 PRODUCT -->
+<div id="product" class="page">
+  <img src="watch1.jpg" style="width:100%;border-radius:15px">
+  <button onclick="openPage('order')">Order</button>
+</div>
+
+<!-- PAGE 3 ORDER -->
+<div id="order" class="page">
+  <input placeholder="Name">
+  <input placeholder="Address">
+  <input placeholder="Number">
+  <select>
+    <option>UPI</option>
+    <option>COD</option>
+  </select>
+  <p>Order Price: ₹1,999</p>
+  <button onclick="openPage('thanks')">Confirm</button>
+</div>
+
+<!-- PAGE 4 THANKS -->
+<div id="thanks" class="page">
+  <h2>Thanks ❤️</h2>
+  <p>Your order confirmed</p>
+  <p>📧 il.intentluxury@gmail.com</p>
+  <p>📸 il_intent_luxury</p>
 </div>
 
 <script>
-// Show main card after intro animation
-setTimeout(() => {
-  document.getElementById('intro').style.display = 'none';
-  document.getElementById('mainCard').style.display = 'flex';
-}, 3000);
-
-function submitOrder() {
-  const name = document.getElementById('name').value;
-  const number = document.getElementById('number').value;
-  const payment = document.getElementById('payment').value;
-  const address = document.getElementById('address').value;
-
-  if(!name || !number || !address) {
-    alert("Please fill all details!");
-    return;
-  }
-
-  alert(`Thank you ${name}!\nYour order will be processed.\nWe will contact you at ${number}.\nPayment: ${payment}`);
+function openPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 </script>
 
