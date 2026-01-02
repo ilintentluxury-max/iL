@@ -6,135 +6,189 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* Background Animation */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  height: 100vh;
+  background: #111;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(-45deg, #000000, #0f3d2e, #111111, #1a1a1a);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  overflow: hidden;
-  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-@keyframes gradientBG {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
+/* Intro overlay */
+#intro {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background:#000;
+  display:flex; justify-content:center; align-items:center;
+  flex-direction:column;
+  z-index: 10;
+  animation: fadeOut 3s forwards;
 }
 
-/* Product Card */
+#intro img {
+  width:150px;
+  animation: logoBounce 2s ease infinite alternate;
+}
+
+@keyframes logoBounce {
+  0% { transform: scale(1);}
+  50% { transform: scale(1.2);}
+  100% { transform: scale(1);}
+}
+
+@keyframes fadeOut {
+  0% {opacity:1;}
+  80% {opacity:1;}
+  100% {opacity:0; visibility:hidden;}
+}
+
+/* Card container */
 .card {
-  max-width: 360px;
-  background: rgba(10,10,10,0.9);
+  max-width: 800px;
+  background: #222;
   border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 0 30px rgba(0,255,170,0.4);
-  text-align: center;
-  padding-bottom: 20px;
-  position: relative;
-  z-index: 1;
+  padding: 20px;
+  box-shadow: 0 0 30px rgba(0,255,170,0.3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.card img {
+/* Images side by side */
+.card .images {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card .images img {
   width: 100%;
-  display: block;
+  border-radius: 12px;
 }
 
-.content {
-  padding: 16px;
+/* Details section */
+.card .details {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .brand {
-  font-size: 18px;
+  font-size: 22px;
   color: gold;
   font-weight: bold;
-  margin-bottom: 8px;
 }
 
 h2 {
-  margin: 0;
-  font-size: 22px;
-  color: #fff;
+  margin: 8px 0;
 }
 
 p {
-  margin: 8px 0;
+  margin: 4px 0;
   color: #ccc;
 }
 
-.btn {
-  display: inline-block;
+label {
   margin-top: 12px;
-  padding: 12px 24px;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin-top:4px;
+  border-radius: 8px;
+  border:none;
+}
+
+button {
+  margin-top: 16px;
+  padding: 12px;
   background: gold;
-  color: #000;
+  color:#000;
   font-weight: bold;
-  text-decoration: none;
-  border-radius: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
 }
 
-.btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px gold;
+button:hover {
+  box-shadow:0 0 15px gold;
 }
 
-/* Wing Animation */
-.wing {
-  position: absolute;
-  width: 60px;
-  height: 30px;
-  background: url('wing.png') no-repeat center/contain; /* Apna logo wing image */
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: floatWing 4s ease-in-out infinite alternate;
-}
-
-@keyframes floatWing {
-  0% { transform: translateX(-50%) translateY(0px) rotate(0deg); }
-  25% { transform: translateX(-55%) translateY(-5px) rotate(-5deg); }
-  50% { transform: translateX(-45%) translateY(-10px) rotate(5deg); }
-  75% { transform: translateX(-50%) translateY(-5px) rotate(-5deg); }
-  100% { transform: translateX(-50%) translateY(0px) rotate(0deg); }
+@media(max-width:700px){
+  .card{ flex-direction: column; }
 }
 </style>
 </head>
 <body>
 
-<!-- Animated Wings -->
-<div class="wing"></div>
+<!-- Intro Logo Animation -->
+<div id="intro">
+  <img src="logo.png" alt="iL Logo">
+  <p style="color:gold; margin-top:10px; font-weight:bold;">iL – Intent Luxury Watch</p>
+</div>
 
-<!-- Product Card -->
-<div class="card">
-  <img src="20260102_150534.jpg" alt="Luxury Watch">
-  <div class="content">
+<!-- Main Product Card -->
+<div class="card" id="mainCard" style="display:none;">
+  <!-- Images -->
+  <div class="images">
+    <img src="pic1.jpg" alt="Watch 1">
+    <img src="pic2.jpg" alt="Watch 2">
+    <img src="pic3.jpg" alt="Watch 3">
+  </div>
+
+  <!-- Details / Order Form -->
+  <div class="details">
     <div class="brand">iL</div>
     <h2>Intent Luxury – Gold Edition</h2>
     <p>Premium gift box included</p>
-    <p>₹4,999</p>
-    <a href="https://wa.me/916295273968" class="btn">Order on WhatsApp</a>
+    <p>Price: ₹4,999</p>
+
+    <label for="name">Your Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label for="number">Phone Number</label>
+    <input type="text" id="number" placeholder="Enter WhatsApp / Phone">
+
+    <label for="payment">Payment Method</label>
+    <select id="payment">
+      <option value="upi">UPI / Google Pay</option>
+      <option value="card">Debit / Credit Card</option>
+      <option value="cod">Cash on Delivery</option>
+    </select>
+
+    <label for="address">Delivery Address</label>
+    <input type="text" id="address" placeholder="Enter your address">
+
+    <button onclick="submitOrder()">Place Order</button>
   </div>
 </div>
 
 <script>
-// Random flying wings effect
-const wing = document.querySelector('.wing');
+// Show main card after intro animation
+setTimeout(() => {
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('mainCard').style.display = 'flex';
+}, 3000);
 
-function randomPosition() {
-  const x = Math.random() * (window.innerWidth - 60);
-  const y = Math.random() * 100; // top area
-  wing.style.left = x + 'px';
-  wing.style.top = y + 'px';
+function submitOrder() {
+  const name = document.getElementById('name').value;
+  const number = document.getElementById('number').value;
+  const payment = document.getElementById('payment').value;
+  const address = document.getElementById('address').value;
+
+  if(!name || !number || !address) {
+    alert("Please fill all details!");
+    return;
+  }
+
+  alert(`Thank you ${name}!\nYour order will be processed.\nWe will contact you at ${number}.\nPayment: ${payment}`);
 }
-
-// Every 3 seconds wing moves randomly
-setInterval(randomPosition, 3000);
 </script>
 
 </body>
