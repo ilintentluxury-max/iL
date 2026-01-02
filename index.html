@@ -6,21 +6,36 @@ index.html
   <title>iL – Intent Luxury Watch</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Naya CSS paste karo yaha -->
   <style>
+    /* Background animation */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #000000, #0f3d2e);
-      color: #ffffff;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #000000, #0f3d2e, #111111, #1a1a1a);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #fff;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
     }
 
     .card {
       max-width: 360px;
-      margin: 40px auto;
-      background: #0b0b0b;
+      background: rgba(10,10,10,0.9);
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 0 25px rgba(0,255,170,0.3);
+      box-shadow: 0 0 30px rgba(0,255,170,0.4);
+      text-align: center;
+      padding-bottom: 20px;
     }
 
     .card img {
@@ -33,3 +48,38 @@ index.html
     }
 
     .brand {
+      font-size: 18px;
+      color: gold;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #fff;
+    }
+
+    p {
+      margin: 8px 0;
+      color: #ccc;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 24px;
+      background: gold;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px gold;
+    }
+  </style>
+</head>
