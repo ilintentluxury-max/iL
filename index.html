@@ -1,208 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>iL – Intent Luxury</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intent Luxury | Premium Store</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --bg-deep: #000000;
+            --bg-green: #041a04;
+            --gold: #d4af37;
+            --white: #ffffff;
+            --light-orange: #ffaa00;
+        }
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
 
-body{
-background:radial-gradient(circle at top,#0f3d2e,#000);
-color:#fff;
-overflow-x:hidden;
-}
+        body {
+            background: radial-gradient(circle at center, var(--bg-green), var(--bg-deep));
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
 
-/* ---------- OPENING ---------- */
-#opening{
-position:fixed;
-inset:0;
-background:#000;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:999;
-animation:fadeOut 2s ease 3s forwards;
-}
+        /* Fixed Glow Effect */
+        .glow-point {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            top: 20%; /* Adjustable position */
+            left: 10%; /* Adjustable position */
+            pointer-events: none;
+            z-index: 1;
+        }
 
-@keyframes fadeOut{
-to{opacity:0;pointer-events:none}
-}
+        /* Page Management */
+        .page {
+            display: none;
+            height: 100vh;
+            width: 100%;
+            position: absolute;
+            transition: opacity 0.8s ease;
+            opacity: 0;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-.logo{
-font-size:42px;
-font-weight:bold;
-color:gold;
-position:relative;
-}
+        .page.active { display: flex; opacity: 1; }
 
-.wing{
-position:absolute;
-top:-30px;
-left:50%;
-transform:translateX(-50%);
-font-size:22px;
-animation:wing 2s infinite ease-in-out;
-}
+        /* Splash Screen */
+        .logo-main { width: 150px; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--gold)); }
+        .gold-text {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+        }
 
-@keyframes wing{
-0%{transform:translateX(-50%) scale(1)}
-50%{transform:translateX(-50%) scale(1.15)}
-100%{transform:translateX(-50%) scale(1)}
-}
+        /* Main Slider */
+        .swiper { width: 100%; height: 70vh; }
+        .swiper-slide { display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .swiper-slide img { width: 80%; height: 100%; object-fit: cover; border-radius: 15px; border: 1px solid var(--gold); }
 
-/* ---------- PAGE ---------- */
-section{
-display:none;
-padding:20px;
-max-width:420px;
-margin:auto;
-}
+        /* Order Form UI (Image 2 Match) */
+        .order-container { position: relative; width: 90%; max-width: 400px; }
+        
+        /* Hanging Light */
+        .hanging-light { position: absolute; top: -150px; left: 10%; }
+        .wire { width: 2px; height: 100px; background: #333; margin: 0 auto; }
+        .bulb {
+            width: 25px; height: 65px; background: #222; border-radius: 12px;
+            border: 2px solid var(--light-orange); box-shadow: 0 0 25px #ff6600;
+            display: flex; justify-content: center;
+        }
+        .filament {
+            width: 4px; height: 35px; background: var(--light-orange); margin-top: 12px;
+            box-shadow: 0 0 10px #fff; animation: flicker 2s infinite alternate;
+        }
 
-section.active{display:block}
+        /* Stepper */
+        .stepper { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; gap: 10px; }
+        .step-circle { width: 35px; height: 35px; background: white; color: black; border-radius: 50%; display: grid; place-items: center; font-weight: bold; }
+        .step-line { width: 60px; height: 2px; background: white; }
 
-/* ---------- CARD ---------- */
-.card{
-background:rgba(0,0,0,.6);
-border-radius:18px;
-padding:18px;
-box-shadow:0 0 25px rgba(255,215,0,.35);
-margin-top:20px;
-}
+        /* Input Boxes */
+        .input-row {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 15px 25px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .input-row label { color: black; font-family: monospace; width: 100px; }
+        .input-row input { border: none; outline: none; width: 100%; color: black; font-size: 1rem; }
 
-/* ---------- PRODUCT ---------- */
-.slider img{
-width:100%;
-border-radius:14px;
-margin-bottom:12px;
-}
+        .price-text { text-align: right; font-family: monospace; margin: 10px 0; font-size: 1.1rem; }
 
-.price{
-color:gold;
-font-size:20px;
-margin:8px 0;
-}
+        /* Order Button & Paper Plane */
+        .order-btn-container { position: relative; margin-top: 30px; width: 100%; display: flex; justify-content: center; }
+        .btn-bg {
+            background: #d9d9d9; color: black; padding: 10px 60px;
+            border-radius: 8px; border: none; font-size: 1.2rem; cursor: pointer;
+            position: relative; overflow: visible;
+        }
+        .plane-icon {
+            position: absolute; left: -60px; top: -10px; width: 50px;
+            transition: transform 1s ease-in-out, opacity 1s;
+        }
 
-/* ---------- BUTTON ---------- */
-button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-background:gold;
-font-weight:bold;
-cursor:pointer;
-margin-top:14px;
-}
+        /* Thank You Animation */
+        .check-mark { font-size: 80px; color: var(--gold); animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-button:hover{
-box-shadow:0 0 15px gold;
-}
+        @keyframes flicker { 0% { opacity: 0.7; } 100% { opacity: 1; } }
+        @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
 
-/* ---------- FORM ---------- */
-input,select{
-width:100%;
-padding:10px;
-margin-top:6px;
-border-radius:8px;
-border:none;
-}
-
-/* ---------- GLOW ---------- */
-.glow{
-margin-top:12px;
-padding:4px;
-border-radius:12px;
-animation:glow 2s infinite;
-}
-
-@keyframes glow{
-0%{box-shadow:0 0 8px rgba(255,215,0,.3)}
-50%{box-shadow:0 0 20px rgba(255,215,0,.9)}
-100%{box-shadow:0 0 8px rgba(255,215,0,.3)}
-}
-
-/* ---------- THANK YOU ---------- */
-.thank{
-text-align:center;
-font-size:22px;
-color:gold;
-animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.08)}
-100%{transform:scale(1)}
-}
-</style>
+    </style>
 </head>
-
 <body>
 
-<!-- OPENING -->
-<div id="opening">
-  <div class="logo">iL
-    <div class="wing">🪽</div>
-  </div>
-</div>
+    <div class="glow-point"></div>
 
-<!-- PRODUCT PAGE -->
-<section id="product" class="active">
-<div class="card">
-<div class="slider">
-<img src="20260102_150534.jpg">
-<img src="20260102_150534.jpg">
-</div>
-<h2>Intent Luxury Watch</h2>
-<div class="price">₹4,999</div>
-<button onclick="go('order')">Order Now</button>
-</div>
-</section>
+    <section id="page-splash" class="page active">
+        <img src="https://i.ibb.co/LkhY8zP/logo.png" class="logo-main" alt="IL Logo">
+        <h1 class="gold-text">Intent Luxury</h1>
+        <button class="btn-bg" onclick="navigateTo('page-main')">Enter</button>
+    </section>
 
-<!-- ORDER PAGE -->
-<section id="order">
-<div class="card">
-<h3>Delivery Details</h3>
+    <section id="page-main" class="page">
+        <h2 style="margin-bottom: 20px; letter-spacing: 3px;">COLLECTIONS</h2>
+        <div class="swiper mainSwiper">
+            <div class="swiper-wrapper" id="main-content">
+                <div class="swiper-slide" onclick="navigateTo('page-product')">
+                    <img src="https://images.unsplash.com/photo-1546868891-d5b032e33f11?q=80&w=1000" alt="Product 1">
+                </div>
+                <div class="swiper-slide" onclick="navigateTo('page-product')">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000" alt="Product 2">
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
 
-<div class="glow">
-<input placeholder="Full Name">
-</div>
+    <section id="page-product" class="page">
+        <div class="order-container">
+            <div class="hanging-light">
+                <div class="wire"></div>
+                <div class="bulb"><div class="filament"></div></div>
+            </div>
 
-<div class="glow">
-<input placeholder="Phone / WhatsApp">
-</div>
+            <div class="stepper">
+                <div class="step-circle">1</div>
+                <div class="step-line"></div>
+                <div class="step-circle">2</div>
+                <div class="step-line"></div>
+                <div class="step-circle">3</div>
+            </div>
 
-<div class="glow">
-<input placeholder="Address">
-</div>
+            <form id="orderForm">
+                <div class="input-row">
+                    <label>name:~</label>
+                    <input type="text" required>
+                </div>
+                <div class="input-row">
+                    <label>address:~</label>
+                    <input type="text" required>
+                </div>
+                <div class="input-row">
+                    <label>number:~</label>
+                    <input type="tel" required>
+                </div>
+                <div class="input-row">
+                    <label>payment:~</label>
+                    <input type="text" placeholder="Method" required>
+                </div>
 
-<select>
-<option>UPI</option>
-<option>Cash on Delivery</option>
-</select>
+                <div class="price-text">order price :~1,999</div>
 
-<button onclick="go('thank')">Confirm Order</button>
-</div>
-</section>
+                <div class="order-btn-container">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3122/3122339.png" class="plane-icon" id="plane">
+                    <button type="submit" class="btn-bg">order</button>
+                </div>
+            </form>
+        </div>
+    </section>
 
-<!-- THANK YOU -->
-<section id="thank">
-<div class="card thank">
-Order Placed Successfully ✨  
-<br><br>
-Thank You for choosing iL
-</div>
-</section>
+    <section id="page-thanks" class="page">
+        <div class="check-mark">✓</div>
+        <h1 class="gold-text">SUCCESS</h1>
+        <p>Your luxury order is being processed.</p>
+        <button class="btn-bg" style="margin-top: 30px;" onclick="location.reload()">Return Home</button>
+    </section>
 
-<script>
-function go(id){
-document.querySelectorAll('section').forEach(s=>s.classList.remove('active'))
-document.getElementById(id).classList.add('active')
-}
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
+        // 1. Navigation Controller
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(pageId);
+            target.classList.add('active');
+
+            if(pageId === 'page-main') {
+                initSwiper();
+            }
+        }
+
+        // 2. Initialize Slider
+        function initSwiper() {
+            new Swiper(".mainSwiper", {
+                effect: "coverflow",
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: "auto",
+                autoplay: { delay: 2500 },
+                pagination: { el: ".swiper-pagination" },
+            });
+        }
+
+        // 3. Form Submission & Plane Animation
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const plane = document.getElementById('plane');
+            
+            // Animation: Plane flies off screen
+            plane.style.transform = "translate(600px, -400px) rotate(-15deg)";
+            plane.style.opacity = "0";
+
+            setTimeout(() => {
+                navigateTo('page-thanks');
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
