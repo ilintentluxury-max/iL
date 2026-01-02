@@ -2,132 +2,205 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Intent Luxury</title>
+<title>iL – Intent Luxury</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box;font-family:Arial}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+
 body{
-  margin:0;background:#000;color:#fff;overflow:hidden;
+background:radial-gradient(circle at top,#0f3d2e,#000);
+color:#fff;
+overflow-x:hidden;
 }
 
-/* OPEN ANIMATION */
-#splash{
-  position:fixed;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  background:#000;z-index:10;
-  animation:fadeOut 1s ease 3s forwards;
-}
-#splash img{
-  width:120px;
-  animation:zoom 2s ease;
-}
-@keyframes zoom{0%{transform:scale(0)}100%{scale(1)}}
-@keyframes fadeOut{to{opacity:0;visibility:hidden}}
-
-/* GLOW LIGHT */
-.glow{
-  position:fixed;left:10px;top:40%;
-  width:8px;height:120px;
-  background:orange;
-  box-shadow:0 0 20px orange;
-  border-radius:10px;
+/* ---------- OPENING ---------- */
+#opening{
+position:fixed;
+inset:0;
+background:#000;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:999;
+animation:fadeOut 2s ease 3s forwards;
 }
 
-/* MAIN */
-.page{display:none;padding:20px}
-.page.active{display:block}
+@keyframes fadeOut{
+to{opacity:0;pointer-events:none}
+}
 
-/* SLIDER */
+.logo{
+font-size:42px;
+font-weight:bold;
+color:gold;
+position:relative;
+}
+
+.wing{
+position:absolute;
+top:-30px;
+left:50%;
+transform:translateX(-50%);
+font-size:22px;
+animation:wing 2s infinite ease-in-out;
+}
+
+@keyframes wing{
+0%{transform:translateX(-50%) scale(1)}
+50%{transform:translateX(-50%) scale(1.15)}
+100%{transform:translateX(-50%) scale(1)}
+}
+
+/* ---------- PAGE ---------- */
+section{
+display:none;
+padding:20px;
+max-width:420px;
+margin:auto;
+}
+
+section.active{display:block}
+
+/* ---------- CARD ---------- */
+.card{
+background:rgba(0,0,0,.6);
+border-radius:18px;
+padding:18px;
+box-shadow:0 0 25px rgba(255,215,0,.35);
+margin-top:20px;
+}
+
+/* ---------- PRODUCT ---------- */
 .slider img{
-  width:100%;border-radius:15px;
-  animation:slide 6s infinite;
+width:100%;
+border-radius:14px;
+margin-bottom:12px;
 }
-@keyframes slide{50%{opacity:.7}}
 
-/* PRODUCT */
-.product{
-  margin-top:20px;
-  background:#111;padding:15px;border-radius:15px;
+.price{
+color:gold;
+font-size:20px;
+margin:8px 0;
 }
+
+/* ---------- BUTTON ---------- */
 button{
-  width:100%;padding:12px;
-  border:none;border-radius:12px;
-  background:#fff;font-weight:bold;
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:gold;
+font-weight:bold;
+cursor:pointer;
+margin-top:14px;
 }
 
-/* FORM */
+button:hover{
+box-shadow:0 0 15px gold;
+}
+
+/* ---------- FORM ---------- */
 input,select{
-  width:100%;margin:8px 0;
-  padding:10px;border-radius:10px;border:none;
+width:100%;
+padding:10px;
+margin-top:6px;
+border-radius:8px;
+border:none;
 }
 
-/* THANKS */
-#thanks{
-  text-align:center;
-  animation:pulse 1.5s infinite;
+/* ---------- GLOW ---------- */
+.glow{
+margin-top:12px;
+padding:4px;
+border-radius:12px;
+animation:glow 2s infinite;
 }
+
+@keyframes glow{
+0%{box-shadow:0 0 8px rgba(255,215,0,.3)}
+50%{box-shadow:0 0 20px rgba(255,215,0,.9)}
+100%{box-shadow:0 0 8px rgba(255,215,0,.3)}
+}
+
+/* ---------- THANK YOU ---------- */
+.thank{
+text-align:center;
+font-size:22px;
+color:gold;
+animation:pulse 2s infinite;
+}
+
 @keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.05)}
+0%{transform:scale(1)}
+50%{transform:scale(1.08)}
+100%{transform:scale(1)}
 }
 </style>
 </head>
 
 <body>
 
-<!-- OPEN LOGO -->
-<div id="splash">
-  <img src="logo.png">
-</div>
-
-<div class="glow"></div>
-
-<!-- PAGE 1 -->
-<div id="home" class="page active">
-  <div class="slider">
-    <img src="watch1.jpg">
-  </div>
-
-  <div class="product">
-    <h3>Intent Luxury Watch</h3>
-    <p>Limited Edition S2026</p>
-    <p>Price ₹1,999</p>
-    <button onclick="openPage('product')">View</button>
+<!-- OPENING -->
+<div id="opening">
+  <div class="logo">iL
+    <div class="wing">🪽</div>
   </div>
 </div>
 
-<!-- PAGE 2 PRODUCT -->
-<div id="product" class="page">
-  <img src="watch1.jpg" style="width:100%;border-radius:15px">
-  <button onclick="openPage('order')">Order</button>
+<!-- PRODUCT PAGE -->
+<section id="product" class="active">
+<div class="card">
+<div class="slider">
+<img src="20260102_150534.jpg">
+<img src="20260102_150534.jpg">
+</div>
+<h2>Intent Luxury Watch</h2>
+<div class="price">₹4,999</div>
+<button onclick="go('order')">Order Now</button>
+</div>
+</section>
+
+<!-- ORDER PAGE -->
+<section id="order">
+<div class="card">
+<h3>Delivery Details</h3>
+
+<div class="glow">
+<input placeholder="Full Name">
 </div>
 
-<!-- PAGE 3 ORDER -->
-<div id="order" class="page">
-  <input placeholder="Name">
-  <input placeholder="Address">
-  <input placeholder="Number">
-  <select>
-    <option>UPI</option>
-    <option>COD</option>
-  </select>
-  <p>Order Price: ₹1,999</p>
-  <button onclick="openPage('thanks')">Confirm</button>
+<div class="glow">
+<input placeholder="Phone / WhatsApp">
 </div>
 
-<!-- PAGE 4 THANKS -->
-<div id="thanks" class="page">
-  <h2>Thanks ❤️</h2>
-  <p>Your order confirmed</p>
-  <p>📧 il.intentluxury@gmail.com</p>
-  <p>📸 il_intent_luxury</p>
+<div class="glow">
+<input placeholder="Address">
 </div>
+
+<select>
+<option>UPI</option>
+<option>Cash on Delivery</option>
+</select>
+
+<button onclick="go('thank')">Confirm Order</button>
+</div>
+</section>
+
+<!-- THANK YOU -->
+<section id="thank">
+<div class="card thank">
+Order Placed Successfully ✨  
+<br><br>
+Thank You for choosing iL
+</div>
+</section>
 
 <script>
-function openPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+function go(id){
+document.querySelectorAll('section').forEach(s=>s.classList.remove('active'))
+document.getElementById(id).classList.add('active')
 }
 </script>
 
