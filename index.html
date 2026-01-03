@@ -3,140 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Products</title>
+<title>Home</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 
+/* BACKGROUND SAME FEEL */
 body{
-  background:#0fa3e2;
-}
-
-/* LOGO */
-.logo-wrap{
-  width:100%;
-  padding:20px 0;
-  display:flex;
-  justify-content:center;
-}
-.logo{
-  font-size:28px;
-  font-weight:bold;
+  background: linear-gradient(180deg,#000,#1a1a1a,#000);
+  background-size:200% 200%;
+  animation:bgmove 8s linear infinite;
   color:#fff;
-  letter-spacing:2px;
-  animation: logo 2s ease-out;
 }
-@keyframes logo{
-  from{opacity:0;transform:scale(.7)}
-  to{opacity:1;transform:scale(1)}
+@keyframes bgmove{
+  0%{background-position:0% 0%}
+  100%{background-position:0% 100%}
 }
 
-/* PRODUCT GRID */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
-  padding:16px;
+/* LAYOUT */
+.wrapper{
+  display:flex;
+  min-height:100vh;
 }
+
+/* PC SIDE BAR */
+.sidebar{
+  width:70px;
+  margin:20px;
+  border:2px solid #fff;
+  border-radius:30px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-around;
+  align-items:center;
+}
+.sidebar button{
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* CONTENT */
+.content{
+  flex:1;
+  padding:20px;
+}
+
+/* PRODUCT SLIDER AREA */
+.products{
+  display:flex;
+  gap:22px;
+  overflow-x:auto;
+}
+.products::-webkit-scrollbar{display:none}
 
 /* PRODUCT CARD */
 .card{
-  background:#fff;
-  border-radius:18px;
-  padding:12px;
-}
-
-/* SLIDER */
-.slider{
-  width:100%;
-  overflow:hidden;
-  border-radius:14px;
-}
-.slides{
-  display:flex;
-  animation: slide 8s infinite;
-}
-.slides img{
-  width:100%;
-  flex-shrink:0;
-  border-radius:14px;
-}
-@keyframes slide{
-  0%{transform:translateX(0)}
-  33%{transform:translateX(-100%)}
-  66%{transform:translateX(-200%)}
-}
-
-/* ADD PIC BOX */
-.add-pic{
-  height:160px;
+  min-width:240px;
+  height:420px;
+  background:#000;
+  border:2px solid #fff;
+  border-radius:30px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:20px;
-  font-weight:bold;
+  font-size:22px;
 }
 
-/* PREVIEW BUTTON */
-.preview{
-  margin-top:10px;
+/* DOTS */
+.dots{
+  text-align:center;
+  margin-top:12px;
+}
+.dots span{
+  width:6px;
+  height:6px;
+  background:#aaa;
+  display:inline-block;
+  border-radius:50%;
+  margin:0 4px;
+}
+
+/* MOBILE NAV */
+.mobile-nav{
+  display:none;
+  position:fixed;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:85%;
+  height:62px;
   background:#000;
-  color:#fff;
+  border:2px solid #fff;
+  border-radius:30px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+.mobile-nav button{
+  background:none;
   border:none;
-  padding:6px 14px;
-  border-radius:10px;
-  float:right;
-  cursor:pointer;
+  color:#fff;
+  font-size:22px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .mobile-nav{display:flex}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGO -->
-<div class="logo-wrap">
-  <div class="logo">INTENT</div>
+<div class="wrapper">
+
+  <!-- PC NAV -->
+  <div class="sidebar">
+    <button onclick="nav('Home')">🏠</button>
+    <button onclick="nav('Wishlist')">🛒</button>
+    <button onclick="nav('Order')">📦</button>
+  </div>
+
+  <!-- MAIN -->
+  <div class="content">
+    <div class="products">
+      <div class="card">Add pic</div>
+      <div class="card">add picture</div>
+      <div class="card">add picture</div>
+    </div>
+
+    <div class="dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
 </div>
 
-<!-- PRODUCTS -->
-<div class="grid">
-
-  <!-- PRODUCT 1 -->
-  <div class="card">
-    <div class="slider">
-      <div class="slides">
-        <!-- CHANGE IMAGE HERE -->
-        <img src="https://i.imgur.com/8QZ7Z5U.png">
-        <img src="https://i.imgur.com/8QZ7Z5U.png">
-        <img src="https://i.imgur.com/8QZ7Z5U.png">
-      </div>
-    </div>
-    <button class="preview" onclick="preview()">preview</button>
-  </div>
-
-  <!-- PRODUCT 2 -->
-  <div class="card">
-    <div class="add-pic">Add pic</div>
-    <button class="preview" onclick="preview()">preview</button>
-  </div>
-
-  <!-- PRODUCT 3 -->
-  <div class="card">
-    <div class="add-pic">Add pic</div>
-    <button class="preview" onclick="preview()">preview</button>
-  </div>
-
-  <!-- PRODUCT 4 -->
-  <div class="card">
-    <div class="add-pic">Add pic</div>
-    <button class="preview" onclick="preview()">preview</button>
-  </div>
-
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <button onclick="nav('Home')">🏠</button>
+  <button onclick="nav('Wishlist')">🛒</button>
+  <button onclick="nav('Order')">📦</button>
 </div>
 
 <script>
-function preview(){
-  alert("Next page later (you will tell)");
+function nav(page){
+  alert(page + " (next page baad me)");
 }
 </script>
 
