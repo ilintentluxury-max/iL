@@ -3,49 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home</title>
+<title>Product UI</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+/* ===== RESET ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
 
-/* 🔥 LIVE BACKGROUND (NO CUT) */
+/* ===== BACKGROUND ===== */
 body{
-  background: radial-gradient(circle at top,#1a1a1a,#000 70%);
-  animation:bgMove 6s infinite alternate;
-  color:#fff;
-  overflow:hidden;
-}
-@keyframes bgMove{
-  from{background-position:0% 0%}
-  to{background-position:0% 100%}
-}
-
-/* MAIN LAYOUT */
-.wrapper{
+  min-height:100vh;
+  background:linear-gradient(180deg,#111,#000);
   display:flex;
-  height:100vh;
-}
-
-/* PC SIDEBAR (EXACT SIZE) */
-.sidebar{
-  width:60px;
-  margin:20px;
-  border:2px solid #fff;
-  border-radius:30px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-around;
+  justify-content:center;
   align-items:center;
 }
-.sidebar button{
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:22px;
-  cursor:pointer;
+
+/* ===== MAIN APP ===== */
+.app{
+  width:100%;
+  max-width:1200px;
+  height:100vh;
+  display:flex;
+  color:white;
 }
 
-/* CONTENT */
+/* ===== SIDEBAR (PC) ===== */
+.sidebar{
+  width:70px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:30px;
+  border-right:2px solid #fff;
+}
+
+.sidebar img{
+  width:30px;
+  margin:auto;
+}
+
+/* ===== CONTENT ===== */
 .content{
   flex:1;
   display:flex;
@@ -53,115 +55,132 @@ body{
   justify-content:center;
 }
 
-/* PRODUCT SLIDER */
-.products{
+/* ===== SLIDER ===== */
+.slider{
   display:flex;
-  gap:22px;
-  padding:0 20px;
+  gap:30px;
   overflow-x:auto;
   scroll-snap-type:x mandatory;
+  padding:30px;
 }
-.products::-webkit-scrollbar{display:none}
 
-/* CARD = MOBILE SCREEN RATIO */
+.slider::-webkit-scrollbar{
+  display:none;
+}
+
+/* ===== CARD ===== */
 .card{
-  scroll-snap-align:center;
   min-width:260px;
-  height:520px; /* 📱 FULL MOBILE LOOK */
+  height:520px;
   background:#000;
   border:2px solid #fff;
-  border-radius:32px;
+  border-radius:28px;
+  scroll-snap-align:center;
   display:flex;
-  align-items:center;
   justify-content:center;
-  font-size:22px;
+  align-items:center;
+  font-size:20px;
 }
 
-/* DOTS */
-.dots{
-  text-align:center;
-  margin-top:14px;
+/* ===== IMAGE ===== */
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:26px;
 }
-.dots span{
+
+/* ===== DOTS ===== */
+.dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
+}
+
+.dot{
   width:6px;
   height:6px;
   background:#555;
-  display:inline-block;
   border-radius:50%;
-  margin:0 4px;
-}
-.dots span.active{background:#fff}
-
-/* MOBILE NAV */
-.mobile-nav{
-  display:none;
-  position:fixed;
-  bottom:18px;
-  left:50%;
-  transform:translateX(-50%);
-  width:85%;
-  height:62px;
-  background:#000;
-  border:2px solid #fff;
-  border-radius:30px;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-}
-.mobile-nav button{
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:22px;
 }
 
-/* RESPONSIVE */
+.dot.active{
+  background:white;
+}
+
+/* ===== MOBILE VIEW ===== */
 @media(max-width:768px){
-  .sidebar{display:none}
-  .mobile-nav{display:flex}
+  .app{
+    flex-direction:column;
+  }
+
+  .sidebar{
+    display:none;
+  }
+
+  .slider{
+    flex-direction:column;
+    height:100vh;
+    overflow-y:auto;
+    scroll-snap-type:y mandatory;
+  }
+
+  .card{
+    width:90%;
+    height:85vh;
+    margin:auto;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="app">
 
-  <!-- PC NAV -->
+  <!-- SIDEBAR -->
   <div class="sidebar">
-    <button>🏠</button>
-    <button>🛒</button>
-    <button>📦</button>
+    <img src="home.svg">
+    <img src="cart.svg">
+    <img src="box.svg">
   </div>
 
   <!-- CONTENT -->
   <div class="content">
-    <div class="products" id="slider">
+
+    <!-- SLIDER -->
+    <div class="slider" id="slider">
       <div class="card">Add pic</div>
-      <div class="card">add picture</div>
-      <div class="card">add picture</div>
+      <div class="card">Add pic</div>
+      <div class="card">Add pic</div>
+      <div class="card">Add pic</div>
     </div>
 
-    <div class="dots" id="dots">
-      <span class="active"></span><span></span><span></span>
-    </div>
+    <!-- DOTS -->
+    <div class="dots" id="dots"></div>
+
   </div>
-
-</div>
-
-<!-- MOBILE NAV -->
-<div class="mobile-nav">
-  <button>🏠</button>
-  <button>🛒</button>
-  <button>📦</button>
 </div>
 
 <script>
 const slider = document.getElementById("slider");
-const dots = document.querySelectorAll("#dots span");
+const dotsBox = document.getElementById("dots");
+const cards = document.querySelectorAll(".card");
 
+/* CREATE DOTS */
+cards.forEach((_,i)=>{
+  const d = document.createElement("div");
+  d.className = "dot";
+  if(i===0) d.classList.add("active");
+  dotsBox.appendChild(d);
+});
+
+const dots = document.querySelectorAll(".dot");
+
+/* SLIDE DETECT */
 slider.addEventListener("scroll",()=>{
-  let index = Math.round(slider.scrollLeft / slider.clientWidth);
+  let index = Math.round(slider.scrollLeft / cards[0].offsetWidth);
   dots.forEach(d=>d.classList.remove("active"));
   if(dots[index]) dots[index].classList.add("active");
 });
