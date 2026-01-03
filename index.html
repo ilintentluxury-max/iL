@@ -8,27 +8,27 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 
-/* BACKGROUND SAME FEEL */
+/* 🔥 LIVE BACKGROUND (NO CUT) */
 body{
-  background: linear-gradient(180deg,#000,#1a1a1a,#000);
-  background-size:200% 200%;
-  animation:bgmove 8s linear infinite;
+  background: radial-gradient(circle at top,#1a1a1a,#000 70%);
+  animation:bgMove 6s infinite alternate;
   color:#fff;
+  overflow:hidden;
 }
-@keyframes bgmove{
-  0%{background-position:0% 0%}
-  100%{background-position:0% 100%}
+@keyframes bgMove{
+  from{background-position:0% 0%}
+  to{background-position:0% 100%}
 }
 
-/* LAYOUT */
+/* MAIN LAYOUT */
 .wrapper{
   display:flex;
-  min-height:100vh;
+  height:100vh;
 }
 
-/* PC SIDE BAR */
+/* PC SIDEBAR (EXACT SIZE) */
 .sidebar{
-  width:70px;
+  width:60px;
   margin:20px;
   border:2px solid #fff;
   border-radius:30px;
@@ -48,24 +48,29 @@ body{
 /* CONTENT */
 .content{
   flex:1;
-  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
-/* PRODUCT SLIDER AREA */
+/* PRODUCT SLIDER */
 .products{
   display:flex;
   gap:22px;
+  padding:0 20px;
   overflow-x:auto;
+  scroll-snap-type:x mandatory;
 }
 .products::-webkit-scrollbar{display:none}
 
-/* PRODUCT CARD */
+/* CARD = MOBILE SCREEN RATIO */
 .card{
-  min-width:240px;
-  height:420px;
+  scroll-snap-align:center;
+  min-width:260px;
+  height:520px; /* 📱 FULL MOBILE LOOK */
   background:#000;
   border:2px solid #fff;
-  border-radius:30px;
+  border-radius:32px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -75,16 +80,17 @@ body{
 /* DOTS */
 .dots{
   text-align:center;
-  margin-top:12px;
+  margin-top:14px;
 }
 .dots span{
   width:6px;
   height:6px;
-  background:#aaa;
+  background:#555;
   display:inline-block;
   border-radius:50%;
   margin:0 4px;
 }
+.dots span.active{background:#fff}
 
 /* MOBILE NAV */
 .mobile-nav{
@@ -123,21 +129,21 @@ body{
 
   <!-- PC NAV -->
   <div class="sidebar">
-    <button onclick="nav('Home')">🏠</button>
-    <button onclick="nav('Wishlist')">🛒</button>
-    <button onclick="nav('Order')">📦</button>
+    <button>🏠</button>
+    <button>🛒</button>
+    <button>📦</button>
   </div>
 
-  <!-- MAIN -->
+  <!-- CONTENT -->
   <div class="content">
-    <div class="products">
+    <div class="products" id="slider">
       <div class="card">Add pic</div>
       <div class="card">add picture</div>
       <div class="card">add picture</div>
     </div>
 
-    <div class="dots">
-      <span></span><span></span><span></span>
+    <div class="dots" id="dots">
+      <span class="active"></span><span></span><span></span>
     </div>
   </div>
 
@@ -145,15 +151,20 @@ body{
 
 <!-- MOBILE NAV -->
 <div class="mobile-nav">
-  <button onclick="nav('Home')">🏠</button>
-  <button onclick="nav('Wishlist')">🛒</button>
-  <button onclick="nav('Order')">📦</button>
+  <button>🏠</button>
+  <button>🛒</button>
+  <button>📦</button>
 </div>
 
 <script>
-function nav(page){
-  alert(page + " (next page baad me)");
-}
+const slider = document.getElementById("slider");
+const dots = document.querySelectorAll("#dots span");
+
+slider.addEventListener("scroll",()=>{
+  let index = Math.round(slider.scrollLeft / slider.clientWidth);
+  dots.forEach(d=>d.classList.remove("active"));
+  if(dots[index]) dots[index].classList.add("active");
+});
 </script>
 
 </body>
