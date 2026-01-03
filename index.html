@@ -3,134 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product UI</title>
+<title>Intent Luxury</title>
 
 <style>
-/* ===== RESET ===== */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
-/* ===== BACKGROUND ===== */
+/* ===== BACKGROUND (SAME AS IMAGE) ===== */
 body{
   min-height:100vh;
-  background:linear-gradient(180deg,#111,#000);
+  background:#1f1f1f url("bg.jpg") repeat;
   display:flex;
   justify-content:center;
   align-items:center;
-}
-
-/* ===== MAIN APP ===== */
-.app{
-  width:100%;
-  max-width:1200px;
-  height:100vh;
-  display:flex;
   color:white;
 }
 
-/* ===== SIDEBAR (PC) ===== */
-.sidebar{
-  width:70px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap:30px;
-  border-right:2px solid #fff;
+/* ===== APP FRAME ===== */
+.app{
+  width:390px;
+  height:780px;
+  border-radius:30px;
+  overflow:hidden;
+  position:relative;
 }
 
-.sidebar img{
-  width:30px;
-  margin:auto;
-}
-
-/* ===== CONTENT ===== */
-.content{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-/* ===== SLIDER ===== */
-.slider{
-  display:flex;
-  gap:30px;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  padding:30px;
-}
-
-.slider::-webkit-scrollbar{
-  display:none;
-}
-
-/* ===== CARD ===== */
-.card{
-  min-width:260px;
-  height:520px;
-  background:#000;
-  border:2px solid #fff;
-  border-radius:28px;
-  scroll-snap-align:center;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:20px;
-}
-
-/* ===== IMAGE ===== */
-.card img{
+/* ===== SCREENS ===== */
+.screen{
   width:100%;
   height:100%;
-  object-fit:cover;
-  border-radius:26px;
+  position:absolute;
+  top:0;
+  left:0;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
 }
 
-/* ===== DOTS ===== */
-.dots{
+.screen.active{
   display:flex;
+}
+
+/* ===== CARD STYLE ===== */
+.card{
+  width:100%;
+  border-radius:28px;
+  background:linear-gradient(145deg,#0c0c0c,#1a1a1a);
+  margin-bottom:20px;
+}
+
+/* ===== LOGO CARD ===== */
+.logo-card{
+  height:140px;
+  display:flex;
+  align-items:center;
   justify-content:center;
-  gap:8px;
-  margin-top:10px;
+  position:relative;
 }
 
-.dot{
-  width:6px;
-  height:6px;
-  background:#555;
+.logo-card img{
+  height:70px;
+}
+
+.cart{
+  position:absolute;
+  right:18px;
+  bottom:18px;
+  width:42px;
+  height:42px;
+  border:1px solid #aaa;
   border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
 }
 
-.dot.active{
+/* ===== PRODUCT PLACEHOLDER ===== */
+.product{
+  height:200px;
+}
+
+/* ===== BUTTON ===== */
+.btn{
+  width:90%;
+  height:55px;
+  border-radius:30px;
+  border:2px solid white;
+  background:transparent;
+  color:white;
+  font-size:20px;
+  margin-top:auto;
+  margin-bottom:25px;
+  cursor:pointer;
+}
+
+/* ===== STEP BAR ===== */
+.steps{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:30px;
+}
+
+.step{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  border:2px solid #777;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.step.active{
+  background:#4caf50;
+  border-color:#4caf50;
+  color:black;
+}
+
+.line{
+  width:40px;
+  height:2px;
+  background:#777;
+}
+
+/* ===== INPUT ===== */
+.input{
+  width:100%;
+  height:55px;
+  border-radius:30px;
+  border:none;
+  margin-bottom:20px;
+  padding:0 20px;
+  font-size:18px;
+}
+
+/* ===== THANKS ===== */
+.thanks{
+  margin-top:150px;
+  text-align:center;
+}
+
+.thanks h1{
   background:white;
+  color:black;
+  padding:15px 40px;
+  border-radius:40px;
 }
 
-/* ===== MOBILE VIEW ===== */
-@media(max-width:768px){
-  .app{
-    flex-direction:column;
-  }
-
-  .sidebar{
-    display:none;
-  }
-
-  .slider{
-    flex-direction:column;
-    height:100vh;
-    overflow-y:auto;
-    scroll-snap-type:y mandatory;
-  }
-
-  .card{
-    width:90%;
-    height:85vh;
-    margin:auto;
-  }
+.small{
+  margin-top:10px;
+  opacity:.8;
 }
 </style>
 </head>
@@ -139,51 +168,83 @@ body{
 
 <div class="app">
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <img src="home.svg">
-    <img src="cart.svg">
-    <img src="box.svg">
+<!-- ================= SCREEN 1 : HOME ================= -->
+<div class="screen active" id="home">
+
+  <div class="card logo-card">
+    <img src="logo.png">
+    <div class="cart" onclick="go('product')">🛒</div>
   </div>
 
-  <!-- CONTENT -->
-  <div class="content">
+  <div class="card product"></div>
+  <div class="card product"></div>
 
-    <!-- SLIDER -->
-    <div class="slider" id="slider">
-      <div class="card">Add pic</div>
-      <div class="card">Add pic</div>
-      <div class="card">Add pic</div>
-      <div class="card">Add pic</div>
-    </div>
+</div>
 
-    <!-- DOTS -->
-    <div class="dots" id="dots"></div>
+<!-- ================= SCREEN 2 : PRODUCT ================= -->
+<div class="screen" id="product">
 
+  <div class="card" style="height:500px;display:flex;align-items:center;justify-content:center;color:#4caf50;">
+    add product picture
   </div>
+
+  <button class="btn" onclick="go('address')">order</button>
+
+</div>
+
+<!-- ================= SCREEN 3 : ADDRESS ================= -->
+<div class="screen" id="address">
+
+  <div class="steps">
+    <div class="step">1</div>
+    <div class="line"></div>
+    <div class="step active">2</div>
+    <div class="line"></div>
+    <div class="step" id="step3">3</div>
+  </div>
+
+  <input class="input" id="name" placeholder="name">
+  <input class="input" id="addr" placeholder="address">
+  <input class="input" id="num" placeholder="number">
+  <input class="input" placeholder="payment">
+
+  <div class="small">order price : ₹1,999</div>
+
+  <button class="btn" onclick="submitOrder()">order</button>
+
+</div>
+
+<!-- ================= SCREEN 4 : THANKS ================= -->
+<div class="screen" id="thanks">
+
+  <div class="thanks">
+    <h1>thanks</h1>
+    <div class="small">your order confirmed</div>
+  </div>
+
+</div>
+
 </div>
 
 <script>
-const slider = document.getElementById("slider");
-const dotsBox = document.getElementById("dots");
-const cards = document.querySelectorAll(".card");
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-/* CREATE DOTS */
-cards.forEach((_,i)=>{
-  const d = document.createElement("div");
-  d.className = "dot";
-  if(i===0) d.classList.add("active");
-  dotsBox.appendChild(d);
-});
+function submitOrder(){
+  let n = name.value.trim();
+  let a = addr.value.trim();
+  let m = num.value.trim();
 
-const dots = document.querySelectorAll(".dot");
+  if(!n || !a || !m){
+    alert("Please fill all details");
+    return;
+  }
 
-/* SLIDE DETECT */
-slider.addEventListener("scroll",()=>{
-  let index = Math.round(slider.scrollLeft / cards[0].offsetWidth);
-  dots.forEach(d=>d.classList.remove("active"));
-  if(dots[index]) dots[index].classList.add("active");
-});
+  document.getElementById("step3").classList.add("active");
+  go('thanks');
+}
 </script>
 
 </body>
