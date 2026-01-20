@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <style>
@@ -11,7 +11,7 @@
 <body>
 
     <div id="controls">
-        <input type="text" id="textInput" value="sudip">
+        <input type="text" id="textInput" value="codeninjavik">
         <button onclick="morph()">Create</button>
     </div>
 
@@ -87,13 +87,13 @@
             return pts;
         }
 
-       function animate() {
-    requestAnimationFrame(animate);
-    // points.rotation.y += 0.005; <--- Iske aage // laga dein ya isse mita dein
-    renderer.render(scene, camera);
-       } function animate() {
+        function animate() {
+            requestAnimationFrame(animate);
+            points.rotation.y += 0.005;
+            renderer.render(scene, camera);
         }
-        animate();   
+        animate();
     </script>
 </body>
 </html>
+
