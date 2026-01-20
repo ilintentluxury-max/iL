@@ -1,6 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        body { margin: 0; background: #000; overflow: hidden; color: white; font-family: sans-serif; }
+        #controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10; }
+        input { padding: 10px; border-radius: 5px; border: none; }
+        button { padding: 10px 20px; cursor: pointer; background: #8a2be2; color: white; border: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <input type="text" id="textInput" value="codeninjavik">
+        <button onclick="morph()">Create</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+
+    <script>
+        // 1. Setup Scene
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const particleCount = 5000;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+
+        // 2. Initial Shape (Sphere)
+        for (let i = 0; i < particleCount; i++) {
+            const phi = Math.acos(-1 + (2 * i) / particleCount);
+            const theta = Math.sqrt(particleCount * Math.PI) * phi;
+            positions[i * 3] = 150 * Math.cos(theta) * Math.sin(phi);
+            positions[i * 3 + 1] = 150 * Math.sin(theta) * Math.sin(phi);
+            positions[i * 3 + 2] = 150 * Math.cos(phi);
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const material = new THREE.PointsMaterial({ color: 0xaa00ff, size: 2 });
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
+
+        camera.position.z = 500;
+
+        // 3. Morph Function
+        function morph() {
+            const text = document.getElementById('textInput').value;
+            const newPositions = getTextPositions(text);
+            
+            const posAttr = points.geometry.attributes.position;
+            for (let i = 0; i < particleCount; i++) {
+                const targetX = newPositions[i] ? newPositions[i].x : (Math.random() - 0.5) * 1000;
+                const targetY = newPositions[i] ? newPositions[i].y : (Math.random() - 0.5) * 1000;
+
+                gsap.to(posAttr.array, {
+                    duration: 2,
+                    [i * 3]: targetX,
+                    [i * 3 + 1]: targetY,
+                    [i * 3 + 2]: 0,
+                    onUpdate: () => posAttr.needsUpdate = true
+                });
+            }
+        }
+
+        // Canvas se text coordinates nikalne ka helper function
+        function getTextPositions(text) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 1000; canvas.height = 200;
+            ctx.fillStyle = "white";
+            ctx.font = "Bold 120px Arial";
+            ctx.fillText(text, 50, 120);
+            
+            const data = ctx.getImageData(0, 0, 1000, 200).data;
+            const pts = [];
+            for (let y = 0; y < 200; y += 2) {
+                for (let x = 0; x < 1000; x += 2) {
+                    if (data[(y * 1000 + x) * 4] > 128) {
+                        pts.push({ x: x - 500, y: (y - 100) * -1 });
+                    }
+                }
+            }
+            return pts;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            points.rotation.y += 0.005;
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Intent Luxury</title>
