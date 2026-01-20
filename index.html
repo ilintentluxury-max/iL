@@ -87,12 +87,13 @@
             return pts;
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            points.rotation.y += 0.005;
-            renderer.render(scene, camera);
+       function animate() {
+    requestAnimationFrame(animate);
+    // points.rotation.y += 0.005; <--- Iske aage // laga dein ya isse mita dein
+    renderer.render(scene, camera);
+       } function animate() {
         }
-        animate();
+        animate();   
     </script>
 </body>
 </html>
