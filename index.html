@@ -11,7 +11,7 @@
 <body>
 
     <div id="controls">
-        <input type="text" id="textInput" value="sudip">
+        <input type="text" id="textInput" value="codeninjavik">
         <button onclick="morph()">Create</button>
     </div>
 
@@ -89,11 +89,10 @@
 
         function animate() {
             requestAnimationFrame(animate);
-            points.rotation.y += 0.006;
-            renderer.render();
+            points.rotation.y += 0.005; //
+            renderer.render(scene, camera);
         }
         animate();
     </script>
 </body>
 </html>
-
